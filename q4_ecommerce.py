@@ -1,3 +1,11 @@
+"""
+Download the python file from this link. It is an implementation of an e-commerce system
+where products can be added, customers can be created and then products can be added to
+the cart. Find the cases where the logic to handle adding or removing products from cart
+fails. Handle these cases after debugging.
+"""
+
+
 class Product:
     def __init__(self, name, price, quantity):
         self.name = name
@@ -32,7 +40,8 @@ class ShoppingCart:
 
     def remove_product(self, product, quantity):
         """
-        subtract the quantity from the product value if current quantiy is greater else remove the product
+        subtract the quantity from the product value 
+        if current quantiy is greater else remove the product
         """
         if product in self.products:
             if self.products[product] <= quantity:
@@ -79,7 +88,6 @@ customer.add_to_cart(product1, 1)
 customer.add_to_cart(product2, 2)
 customer.checkout()
 
-breakpoint()
 try:
     customer.add_to_cart(product1, -1)
 except ValueError as e:

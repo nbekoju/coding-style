@@ -1,5 +1,3 @@
-def double(x):
-   breakpoint()
-   return x * 2
-val = 3
-print(f"{val} * 2 is {double(val)}")
+nums = [1, 2, 3]
+for i, num in enumerate(nums):
+    print(i, num)

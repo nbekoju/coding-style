@@ -1,10 +1,12 @@
-# Create a function that validates email addresses based on following set of rules:
+"""
+Create a function that validates email addresses based on following set of rules:
 
-# Proper email format such as presence of “@”, no space in the address
-
-# Presence of valid email providers such as yahoo, gmail and outlook. Make sure there are no no disposable email providers such as yopmail.
-
-# Write unit tests to validate different email addresses against the rules, including valid and invalid addresses (Use unittest module).
+- Proper email format such as presence of “@”, no space in the address
+- Presence of valid email providers such as yahoo, gmail and outlook. 
+- Make sure there are no disposable email providers such as yopmail.
+- Write unit tests to validate different email addresses against the rules, 
+including valid and invalid addresses (Use unittest module).
+"""
 
 import re
 import unittest
@@ -36,11 +38,17 @@ class TestValidateEmail(unittest.TestCase):
     """
 
     def test_valid_emails(self):
+        """
+        test the valid emails
+        """
         self.assertTrue(validate_email("nirajan@gmail.com"))
         self.assertTrue(validate_email("nirajan@yahoo.com"))
         self.assertTrue(validate_email("nir%ajan@outlook.com"))
 
     def test_invalid_emails(self):
+        """
+        test the invalid emails
+        """
         self.assertFalse(validate_email("nirajan@yopmail.com"))
         self.assertFalse(validate_email("nirajan@ yahoo.com"))
 
