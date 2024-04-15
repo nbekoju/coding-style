@@ -1,14 +1,21 @@
-# Create a Python program that manages student records. The program should have the following functionalities:
-
-## Create a function that can add new students to the records with their student_id, name, age, and grade. The records should be saved to “json” file and each time new record is added, it should be saved to same “json” file
-
-## Allow searching for a student by student_id or name. The data should return age and grade from the saved file.
-
-##Allow updating a student's information by using student_id or name(age or grade)
+"""
+Create a Python program that manages student records. 
+The program should have the following functionalities:
+- Create a function that can add new students to the records with their 
+student_id, name, age, and grade. The records should be saved to a "json" file 
+and each time a new record is added, it should be saved to the same "json" file.
+- Allow searching for a student by student_id or name. 
+The data should return age and grade from the saved file.
+- Allow updating a student's information by using student_id or name (age or grade).
+"""
 
 import json
 
-file_name = "student_records.json"
+FILE_NAME = "student_records.json"
+
+
+class RecordNotFoundError(Exception):
+    """custom exception class for record not found"""
 
 
 def load_records():
@@ -19,7 +26,7 @@ def load_records():
         records: list of dictionary
     """
     try:
-        with open(file_name, "r") as file:
+        with open(FILE_NAME, "r", encoding="utf-8") as file:
             records = json.load(file)
     except FileNotFoundError:
         records = []
@@ -34,7 +41,7 @@ def write_data(records: list):
     Parameters:
         records: list of dictionary
     """
-    with open(file_name, "w") as file:
+    with open(FILE_NAME, "w", encoding="utf-8") as file:
         json.dump(records, file, indent=4)
 
 
@@ -68,10 +75,10 @@ def get_info_by_identifier(search_term):
     """
     records = load_records()
     for record in records:
-        if record["id"] == search_term or record["name"] == search_term:
+        if search_term in (record["id"], record["name"]):
             return {"age": record["age"], "grade": record["grade"]}
 
-    raise Exception("Student Record Not Found")
+    raise RecordNotFoundError("Record Not Found")
 
 
 def update_data(identifier, key: str, value):
@@ -86,23 +93,24 @@ def update_data(identifier, key: str, value):
     """
     records = load_records()
     updated = False
+    updated_record = None
     for record in records:
-        if record["id"] == identifier or record["name"] == identifier:
+        if identifier in (record["id"], record["name"]):
             updated = True
             record[key] = value
+            updated_record = record
             break
-    if updated:
-        write_data(records)
-        return record
-
     if not updated:
-        raise Exception("Student Record Not Found")
+        raise RecordNotFoundError("Record Not Found")
+
+    write_data(records)
+    return updated_record
 
 
 if __name__ == "__main__":
-    records = load_records()
-    data = {"id": 5, "name": "ABCD", "age": 23, "grade": 3}
-    add_student(data)
+    current_records = load_records()
+    data_to_add = {"id": 5, "name": "ABCD", "age": 23, "grade": 3}
+    add_student(data_to_add)
     search_result = get_info_by_identifier(5)
     print(search_result)
     updated_record = update_data(5, "grade", 100)
